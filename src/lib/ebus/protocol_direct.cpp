@@ -818,6 +818,7 @@ uint64_t DirectProtocolHandler::createAnswerKey(symbol_t srcAddress, symbol_t ds
   int exp = 3;
   for (size_t pos = 0; pos < idLen; pos++) {
     key |= (uint64_t)id[pos] << (8 * exp--);
+    if (exp < 0) {exp=7;}
   }
   return key;
 }

@@ -166,7 +166,7 @@ class DirectProtocolHandler : public ProtocolHandler {
    * @param idLen the length of the further ID bytes.
    * @return a key for storing an answer.
    */
-  uint64_t createAnswerKey(symbol_t srcAddress, symbol_t dstAddress, symbol_t pb, symbol_t sb,
+  std::string createAnswerKey(symbol_t srcAddress, symbol_t dstAddress, symbol_t pb, symbol_t sb,
       const symbol_t* id, size_t idLen);
 
   /**
@@ -191,7 +191,7 @@ class DirectProtocolHandler : public ProtocolHandler {
   BusRequest* m_currentRequest;
 
   /** the answers to give by key. */
-  std::map<uint64_t, SlaveSymbolString > m_answerByKey;
+  std::map<std::string, SlaveSymbolString > m_answerByKey;
 
   /** whether currently answering a request from another participant. */
   bool m_currentAnswering;

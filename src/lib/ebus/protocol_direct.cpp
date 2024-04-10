@@ -816,16 +816,19 @@ uint64_t DirectProtocolHandler::createAnswerKey(symbol_t srcAddress, symbol_t ds
   key |= (uint64_t)pb << (8 * 5);
   key |= (uint64_t)sb << (8 * 4);
   int exp = 3;
+  if (idLen > 4){
+    //reuse bytes with OR function. Possible CRC stays the last byte, length stays the first byte.
+    exp = static_cast<int>(idLen-1);
+  }
   for (size_t pos = 0; pos < idLen; pos++) {
     key |= (uint64_t)id[pos] << (8 * exp--);
-    if (exp < 0) {exp=7;}
   }
   return key;
 }
 
 bool DirectProtocolHandler::setAnswer(symbol_t srcAddress, symbol_t dstAddress, symbol_t pb, symbol_t sb,
     const symbol_t* id, size_t idLen, const SlaveSymbolString& answer) {
-  if (!m_config.answer || (!id && idLen > 0) || idLen > 4 || !isValidAddress(dstAddress, false)
+  if (!m_config.answer || (!id && idLen > 0) || idLen > 7 || !isValidAddress(dstAddress, false)
   || (srcAddress != SYN && !isMaster(srcAddress))) {
     return false;
   }
